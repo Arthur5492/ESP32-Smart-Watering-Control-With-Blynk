@@ -10,30 +10,38 @@
 #include <wifiSetup.h>
 #include <dht11.h>
 
+//           Blynk Input Pins       //
+#define vblynk_dht11_temp    V0
+#define vblynk_dht11_humi    V1
+#define vblynk_captivePortal V2
+#define vblynk_waterSensor   V3
+//V0 = Botao virtual Temperatura DHT11
+//V1 = Botao virtual Umidade DHT11
+//V2 = Botao virtual Botão para ligar o Captive Portal
+//V3 = Botao virtual Led para indicar agua
+
 /////////////////////////////////////
-//           Blynk Output Functions       //
+//           Send Data to Blynk       //
 void sendSensorsData()
 {
-  //DHT11
-  Blynk.virtualWrite(V1, dht11.getHumidity());
-  Blynk.virtualWrite(V2, dht11.getTemperature());
+  //DHT11 
+   Blynk.virtualWrite(vblynk_dht11_temp, dht11.getTemperature());
+   Blynk.virtualWrite(vblynk_dht11_humi, dht11.getHumidity());
   //END DHT11
-  //Water Level
+  //SOILMOSTURE
+  //->
+  //END SOILMOSTURE
+  Serial.print("Dados enviados ao Blynk");
 }
-
 /////////////////////////////////////
-//           Blynk Input Pins       //
-//V0 = Temperatura DHT11
-//V1 = Umidade DHT11
-//V2 = Botão para ligar o Captive Portal
-//V3 = Led para indicar agua
-
-BLYNK_WRITE(V2)
+//          Get Data from Blynk          //
+BLYNK_WRITE(vblynk_captivePortal)//Receive data from button inside Blynk
 {
   int buttonState = param.asInt();
 
-  if(buttonState == 1) //Ligar captive portal
+  if(buttonState == 1) 
   {
+    Serial.print("Botão Blynk do Portal Acess ligado");
     digitalWrite(2, HIGH);
     acessPoint.startCaptivePortal();
   }
@@ -41,43 +49,30 @@ BLYNK_WRITE(V2)
   {
     acessPoint.logoutCaptivePortal();
     digitalWrite(2, LOW);
+    Serial.print("Botão Blynk do Portal Acess desligado");
   }
+  
 }
 
 /////////////////////////////////////
 //           Blynk Timers       //
-BlynkTimer sensorTimer;
+//https://docs.blynk.io/en/blynk-library-firmware-api/blynk-timer
+BlynkTimer sensorTimer; 
+//Endtimer
 
+/// @brief Namespace to simplify Blynk usage
 namespace blynkHandler
 {
 
-  void loadTimers(); //setup timers
-  void config();  //Config Blynk and set up timers
-  void run(); ///Run Blynk Object and all Timers 
-
+  void config();  //Config Blynk and Timers
   
-
   void config()
   {
     Blynk.config(BLYNK_AUTH_TOKEN);
     Blynk.connect();
 
-    loadTimers();
-  }
-
-  
-  void loadTimers()
-  {
     sensorTimer.setInterval(1000L, sendSensorsData);
-  }  
-
-  
-  void run()
-  {
-    Blynk.run();
-    sensorTimer.run();
   }
-
 }
 
 #endif
