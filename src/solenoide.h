@@ -8,7 +8,7 @@ namespace solenoide
   uint8_t _pin;
   bool actualState;
 
-  void setPin(uint8_t PIN)
+  void setup(uint8_t PIN)
   {
     _pin = PIN;
     pinMode(_pin,OUTPUT);
