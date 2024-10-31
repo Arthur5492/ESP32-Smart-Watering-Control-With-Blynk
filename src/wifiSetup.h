@@ -12,8 +12,6 @@
 class wifiSetup
 {
   private:
-    //Blynk
-
     //Captive Portal
     const char* ssidCapPortal = "Configura_ESP32";
     const char* passwordCapPortal = "12345678";
@@ -24,25 +22,31 @@ class wifiSetup
     bool isAcessPointEnabled = false;
 
     //NVS Memory
-    Preferences wifiData;
+    Preferences wifiDataNVS;
     //Stored Wifi Data
     String ssidStored;
     String passwdStored;
+    String wifiOptions;
     
+    String htmlPage(); //HTML page for the Captive Portal
+    bool isWifiDataStored(); //Check if there is any stored SSID and Password in NVS 
+    void wifiScan();//Search and insert in html all wifi SSID options
+
   public:
     wifiSetup(): server(80) {};
     ~wifiSetup(){};
 
-    bool isWifiDataStored(); //Check if there is any stored SSID and Password in NVS 
+    void logoutCaptivePortal(); //Logout the Captive Portal
     bool connectWifi(); //Connect to the stored SSID and Password
     void startCaptivePortal(); //Start the Captive Portal
-    void logoutCaptivePortal(); //Logout the Captive Portal
     void begin(); //Start the basics
-    String htmlPage(); //HTML page for the Captive Portal
     void loop(); //Loop for the Captive Portal
+    void clearNVS();
 
     const char* getSsidStored() { return ssidStored.c_str(); }
     const char* getPasswdStored() { return passwdStored.c_str(); }
+
+    //?Not used
     bool getIsAcessPointEnabled() { return isAcessPointEnabled; }
 };
 

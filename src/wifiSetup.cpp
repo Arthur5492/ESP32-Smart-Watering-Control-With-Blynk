@@ -4,26 +4,27 @@ wifiSetup acessPoint;
 
 void wifiSetup::begin()
 {
-  wifiData.begin("wifiData",true);//Acess Read Only NVS memory
+  wifiDataNVS.begin("wifiDataNVS",true);//Acess Read Only NVS memory
 
   // Tenta conectar ao WiFi se os dados estiverem armazenados, caso contrário inicia o Captive Portal
   if (!isWifiDataStored() || !connectWifi()) {
+      wifiScan();//Procura redes wifi para colocar no portal de acesso
       startCaptivePortal();
   }
 
-  wifiData.end();
+  wifiDataNVS.end();
 }
 
 bool wifiSetup::isWifiDataStored()
 {
-  String isDataStored = wifiData.getString("ssid");
+  String isDataStored = wifiDataNVS.getString("ssid");
 
   if(isDataStored != 0) 
   {
-    ssidStored = wifiData.getString("ssid").c_str();
-    passwdStored = wifiData.getString("password").c_str();
+    ssidStored = wifiDataNVS.getString("ssid").c_str();
+    passwdStored = wifiDataNVS.getString("password").c_str();
 
-    wifiData.end();
+    wifiDataNVS.end();
 
     Serial.printf("SSID Encontrado: %s\n",ssidStored.c_str());
     return true;
@@ -35,9 +36,20 @@ bool wifiSetup::isWifiDataStored()
 
 void wifiSetup::startCaptivePortal()
 {
-  if(isAcessPointEnabled)
-    return;
-  
+
+  if(isAcessPointEnabled == true)
+    {
+      Serial.print("Acess Point ja esta ativado");
+      return;
+    }
+
+  //?If WiFi is connected wait for disconnect
+  while(WiFi.status() == WL_CONNECTED)
+  {
+    WiFi.disconnect();
+    delay(100);
+  }
+
   WiFi.softAP(ssidCapPortal, passwordCapPortal);
   IPAddress apIP(192, 168, 4, 1);
   dnsServer.start(53, "*", apIP);
@@ -80,24 +92,31 @@ bool wifiSetup::connectWifi()
   
     Serial.printf("Tentando conectar ao Wifi %s",ssidStored.c_str());
     delay(1000);
-    while(WiFi.status() == WL_IDLE_STATUS)
-    {
+    
+    // Timeout para evitar loops infinitos
+    unsigned long startAttemptTime = millis();
+    
+    // Loop até conectar ou atingir o tempo limite
+    while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
       Serial.print(".");
-      delay(1000);
+      delay(1000); // Espera entre tentativas
     }
+
+
     if(WiFi.status() == WL_CONNECTED)
     {
       Serial.printf("Conectado ao Wifi %s", ssidStored.c_str());
-      wifiData.begin("wifiData",false);//Acess Read Write NVS memory
-      wifiData.putString("ssid", ssidStored);
-      wifiData.putString("password", passwdStored);
-      wifiData.end();
+      wifiDataNVS.begin("wifiDataNVS",false);//Acess Read Write NVS memory
+      wifiDataNVS.putString("ssid", ssidStored);
+      wifiDataNVS.putString("password", passwdStored);
+      wifiDataNVS.end();
       Serial.printf("SSID: %s salvo no NVS\n",ssidStored.c_str());
       return true;
     }
     else
     {
       Serial.printf("Falha ao conectar ao Wifi %s, erro: %d",ssidStored.c_str(),WiFi.status());
+      isAcessPointEnabled = false;
       startCaptivePortal();
       return false;
     }
@@ -107,12 +126,38 @@ void wifiSetup::loop()
 {
   if(isAcessPointEnabled && millis() - serverStartTime < timeoutDuration)
       dnsServer.processNextRequest();
+  
 }
+
+void wifiSetup::clearNVS() {
+    wifiDataNVS.begin("wifiDataNVS", false);
+    wifiDataNVS.clear();
+    wifiDataNVS.end();
+    Serial.println("NVS limpo");
+}
+
+void wifiSetup::wifiScan()
+{
+  WiFi.mode(WIFI_STA); // Modo Station para escanear redes Wi-Fi
+  WiFi.disconnect(); // Certifique-se de que não está conectado a outra rede
+  delay(200); // Pequeno delay para garantir que o modo foi ativado
+
+  int ssidList = WiFi.scanNetworks();
+  
+  for(size_t i=0; i<ssidList;i++)
+  {
+    wifiOptions+= "<option value='"+WiFi.SSID(i)+"'>" + WiFi.SSID(i) + "</option>";
+  }
+
+  Serial.printf("Wifi options before: %s \n", wifiOptions.c_str());
+}
+
+
 
 String wifiSetup::htmlPage()
 {
   // HTML básico para a página de configuração
- String index_html = R"rawliteral(
+  String index_html = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <title>Configuracao do Wi-Fi</title>
@@ -122,14 +167,24 @@ String wifiSetup::htmlPage()
   <h2>Configurar Wi-Fi</h2>
   <form action="/save" method="post">
     <label for="ssid">Nome da Rede (SSID):</label><br>
-    <input type="text" id="ssid" name="ssid"><br><br>
+    <select id="ssid" name="ssid">
+      %OPTIONS%
+    </select><br><br>
+
     <label for="password">Senha:</label><br>
     <input type="text" id="password" name="password"><br><br>
+    
+    <label for="local_ip">Endereco IP local:</label><br>
+    <input type="text" id="local_ip" name="local_ip" placeholder="Digite o IP aqui"><br><br>
+
     <input type="submit" value="Salvar">
   </form>
 </body>
 </html>)rawliteral";
 
-return index_html;
+  // Substitui %OPTIONS% pelas opções de redes Wi-Fi descobertas
+  index_html.replace("%OPTIONS%", wifiOptions);
+
+  return index_html;
 }
 
