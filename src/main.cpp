@@ -3,6 +3,8 @@
 #include <blynk.h>
 #include <waterLevel.h>
 
+#define PIN_WATERPUMP 12
+
 void setup() { 
   Serial.begin(9600);
   
@@ -13,13 +15,12 @@ void setup() {
 }
 
 void loop() {
-  blynkHandler::run();
+  Blynk.run();
+  sensorTimer.run();
 
   acessPoint.loop(); //Acess Point to connect to wifi by captive portal
 
-  if(waterLevel::isHIGH())
-    Blynk.virtualWrite(V3, HIGH);
-  else  
-    Blynk.virtualWrite(V3, LOW);
-
+  if(waterLevel::isLow())
+    waterLevel::fillTank(PIN_WATERPUMP);
+  
 }
