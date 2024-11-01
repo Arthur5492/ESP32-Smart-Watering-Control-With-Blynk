@@ -3,7 +3,7 @@
 
 #include <DHT.h>
 
-class DHT11Sensor
+class DHT11Sensor //setta o pino do sensor DHT11
 {  
   private:
     uint8_t PIN = 5;

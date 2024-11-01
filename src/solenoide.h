@@ -2,7 +2,7 @@
 #define SOLENOIDE_H
 
 #include <Arduino.h>
-
+//LÓGICA DE ACIONAMENTO DA SOLENOIDE (NAO IMPLEMENTADA)
 namespace solenoide
 {
   uint8_t _pin;

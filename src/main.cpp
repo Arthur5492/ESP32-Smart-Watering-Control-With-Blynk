@@ -1,25 +1,18 @@
-#include <wifiSetup.h>
-#include <dht11.h>
-#include <blynk.h>
-#include <waterLevel.h>
+#include <Arduino.h>
+#define Relay 26
 
-void setup() { 
+void setup() {  //Teste relé 5V com motor bomba d'água
   Serial.begin(9600);
+  pinMode(Relay, OUTPUT);
   
-  acessPoint.begin();
-  //Blynk
-  blynkHandler::config();
-  //END Blynk
 }
 
-void loop() {
-  blynkHandler::run();
-
-  acessPoint.loop(); //Acess Point to connect to wifi by captive portal
-
-  if(waterLevel::isHIGH())
-    Blynk.virtualWrite(V3, HIGH);
-  else  
-    Blynk.virtualWrite(V3, LOW);
-
+void loop() { //Liga e desliga o relé a cada 5 segundos
+ 
+ digitalWrite(Relay, LOW);
+ Serial.println("Relay ON");
+ delay(5000);
+ digitalWrite(Relay, HIGH);
+ Serial.println("Relay OFF");
+  delay(5000);
 }
