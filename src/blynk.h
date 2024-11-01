@@ -55,9 +55,11 @@ BLYNK_WRITE(vblynk_captivePortal)//Receive data from button inside Blynk
 }
 
 /////////////////////////////////////
-//           Blynk Timers       //
-//https://docs.blynk.io/en/blynk-library-firmware-api/blynk-timer
-BlynkTimer sensorTimer; 
+///           Blynk Timers       //
+///Learn more in: https://docs.blynk.io/en/blynk-library-firmware-api/blynk-timer
+///
+//Timer that send sensors values
+BlynkTimer sensorTimer;
 //Endtimer
 
 /// @brief Namespace to simplify Blynk usage
