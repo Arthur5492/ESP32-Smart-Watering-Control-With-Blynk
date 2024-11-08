@@ -1,5 +1,6 @@
 #ifndef _WIFI_SETUP_H_
 #define _WIFI_SETUP_H_
+#pragma once
 
 #include <Arduino.h>
 #include <WiFi.h>
@@ -7,7 +8,7 @@
 #include <DNSServer.h>
 #include <Preferences.h>
 
-
+#include "blynkHandler.h"
 
 class wifiSetup
 {
@@ -26,6 +27,7 @@ class wifiSetup
     //Stored Wifi Data
     String ssidStored;
     String passwdStored;
+    String blynk_Key_Stored;
     String wifiOptions;
     
     String htmlPage(); //HTML page for the Captive Portal
@@ -41,7 +43,7 @@ class wifiSetup
     void startCaptivePortal(); //Start the Captive Portal
     void begin(); //Start the basics
     void loop(); //Loop for the Captive Portal
-    void clearNVS();
+    void clearNVS(); //Clear all NVS data stored
 
     const char* getSsidStored() { return ssidStored.c_str(); }
     const char* getPasswdStored() { return passwdStored.c_str(); }
