@@ -1,26 +1,44 @@
-#include <wifiSetup.h>
-#include <dht11.h>
-#include <blynk.h>
-#include <waterLevel.h>
+#include "wifiSetup.h"
 
-#define PIN_WATERPUMP 12
+
+//SENSORS
+#include "dht11.h"
+#include "waterTankManager.h"
+//END SENSORS
 
 void setup() { 
   Serial.begin(9600);
   
+  ///      PINS SETUP      ///
+  waterTank.setPINS(27,26,25);
+  dht11.setPIN(22);
+  //? waterPump, soil_mosture
+  ///      PINS SETUP      ///
+
   acessPoint.begin();
-  //Blynk
-  blynkHandler::config();
-  //END Blynk
+
+  if(WiFi.isConnected()) 
+    blynkHandler.config();
 }
 
 void loop() {
-  Blynk.run();
-  sensorTimer.run();
-
-  acessPoint.loop(); //Acess Point to connect to wifi by captive portal
-
-  if(waterLevel::isLow())
-    waterLevel::fillTank(PIN_WATERPUMP);
+  //Acess Point to connect to wifi by captive portal
+  acessPoint.loop(); 
   
+  //Blynk will not always be connected, and we need the logic always running regardless of Blynk
+  if(Blynk.connected()) 
+  {
+    Blynk.run();
+    blynkHandler.publishData();  
+  }
+  
+  waterTank.update();
+  //?Deixar no main ou no waterTank.update();
+  // if(waterTank.isLow() && !waterTank.isFilling() )
+  // {
+  //   Serial.printf("WaterTank is low, executing fillTank logic");
+  //   waterTank.fillTank();
+  // }
+
+  delay(100);
 }
