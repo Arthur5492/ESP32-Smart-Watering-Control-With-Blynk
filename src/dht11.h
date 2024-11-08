@@ -1,25 +1,27 @@
 #ifndef DHT11_H
 #define DHT11_H
 
+#pragma once
+
 #include <DHT.h>
 
 class DHT11Sensor
 {  
   private:
-    uint8_t PIN = 5;
-    DHT dht;
+    uint8_t _pin;
+    DHT *_dht = nullptr;
 
-    float temperature;
-    float humidity;
+    double temperature;
+    double humidity;
 
   public:
-    DHT11Sensor(): dht(PIN,DHT11){ dht.begin(); };
+    DHT11Sensor() = default;
     ~DHT11Sensor(){};
 
-
-    float getTemperature();
-    float getHumidity();
-
+    void setPIN(uint8_t pin);
+    double getTemperature();
+    double getHumidity();
+    bool dhtExists();
 };
 
 extern DHT11Sensor dht11;
