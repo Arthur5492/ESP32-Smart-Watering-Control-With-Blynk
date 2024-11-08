@@ -33,12 +33,6 @@ void loop() {
   }
   
   waterTank.update();
-  //?Deixar no main ou no waterTank.update();
-  // if(waterTank.isLow() && !waterTank.isFilling() )
-  // {
-  //   Serial.printf("WaterTank is low, executing fillTank logic");
-  //   waterTank.fillTank();
-  // }
 
   delay(100);
 }
