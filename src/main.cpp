@@ -66,18 +66,18 @@ void loop() {
     float humidity = dht.readHumidity();
     float temperature = dht.readTemperature(); // In Celsius
 
-    // Check if readings failed
-    if (isnan(humidity) || isnan(temperature)) {
-      Serial.println("Failed to read from DHT sensor!");
-      return;
-    }
+    // // Check if readings failed
+    // if (isnan(humidity) || isnan(temperature)) {
+    //   Serial.println("Failed to read from DHT sensor!");
+    //   return;
+    // }
 
-    // Print readings to the serial monitor
-    Serial.print("Humidity: ");
-    Serial.print(humidity);
-    Serial.print("%  Temperature: ");
-    Serial.print(temperature);
-    Serial.println("°C");
+    // // Print readings to the serial monitor
+    // Serial.print("Humidity: ");
+    // Serial.print(humidity);
+    // Serial.print("%  Temperature: ");
+    // Serial.print(temperature);
+    // Serial.println("°C");
 
     // Read soil moisture from HW-080 sensor
     int soilMoistureValue = analogRead(SOIL_SENSOR_PIN); // Read analog value (0-4095)i
