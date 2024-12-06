@@ -12,3 +12,5 @@ O sistema utiliza sensores para monitorar a umidade do solo e a temperatura do a
 
 ## Esquema Geral do Sistema
 ![Irrigação drawio (1)](https://github.com/user-attachments/assets/a1357d2c-8834-49f1-b013-14b51f24a0bd)
+
+![image](https://github.com/user-attachments/assets/79e03bca-cfce-4e53-8547-6ace4d92960b)
