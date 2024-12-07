@@ -11,8 +11,8 @@ O trabalho foi realizado como parte da disciplina **Projeto Integrador I**, com 
 
 ## 📋 Descrição do Projeto
 
-O sistema utiliza um sensor **FC28** para monitorar a umidade do solo e um **DHT11** para monitorar a temperatura e umidade do ar. Caso a umidade esteja abaixo do esperado, uma bomba d'água é acionada, irrigando a horta.  
-Também há o controle do sistema de tanque de água, que utiliza dois sensores de nível de água verticais para medir o nível de água do tanque. Caso ele esteja baixo, uma válvula solenóide conectada ao encanamento é acionada via relé.
+> O sistema utiliza um sensor **FC28** para monitorar a umidade do solo e um **DHT11** para monitorar a temperatura e umidade do ar. Caso a umidade esteja abaixo do esperado, uma bomba d'água é automaticamente acionada, garantindo a irrigação adequada da horta.  
+> Além disso, o sistema gerencia o tanque de água utilizando dois sensores verticais para monitorar o nível do reservatório. Quando o nível está baixo, uma válvula solenóide conectada ao encanamento é ativada via relé, assegurando o reabastecimento automático.
 
 ---
 
