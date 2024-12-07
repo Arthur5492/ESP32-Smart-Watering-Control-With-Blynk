@@ -68,6 +68,6 @@ Para mais detalhes sobre o hardware, visite a seção [Hardware no Wiki](https:/
 - **Modo Manual e Testes:**  
   Oferece operação forçada para ajustes ou manutenção, ideal para experimentação.
 
-## 🚀 Installation
+## 🚀 Instalação
 
 > Para realizar a instalação e configuração do projeto em seu ambiente, siga as instruções detalhadas disponíveis no [Guia de Instalação no Wiki](https://github.com/Arthur5492/ESP32-Smart-Watering-Control-With-Blynk/wiki/3.Installation).
