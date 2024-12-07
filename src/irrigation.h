@@ -37,6 +37,11 @@ class Irrigation
     bool getIsIrrigating()  { return _isIrrigating; };
     bool get_criticalError(){ return criticalError; };
 
+    ///SETTERS
+    
+    /// @param timeout value in milliseconds
+    void set_IRRIGATION_TIMEOUT(unsigned long timeout){IRRIGATION_TIMEOUT = timeout; };
+
     /// @brief Defines DHT11 Humidity value for irrigation logic
     /// @param humThres humidity interger 0-100
     void setHumThreshold(uint8_t humThres) {_humidityThreshold = humThres; };
@@ -49,9 +54,9 @@ class Irrigation
     /// @param minsoilThres Moisture interger 0-100 (percentage)
     void setSoilMostureMin(uint8_t minsoilThres) { _soilMoistureMinHumidity = minsoilThres; };
 
-    /// @brief Defines Soil Moisture max(ideal) humidity Percentage value
-    /// @param maxsoilThres Moisture interger 0-100 (percentage)
-    void setSoilMostureMax(uint8_t maxsoilThres) { _soilMoistureMaxHumidity = maxsoilThres; };
+    /// @brief Defines Soil Moisture ideal(max) humidity Percentage value
+    /// @param idealSoilThres Moisture interger 0-100 (percentage)
+    void setSoilMostureIdeal(uint8_t idealSoilThres) { _soilMoistureIdealHumidity = idealSoilThres; };
 
   private:
     int _humidity = 0;
@@ -63,17 +68,17 @@ class Irrigation
 
     bool criticalError = false;
     
-    int _humidityThreshold = -1; //?Nao achei uso pratico de humidade do dht11
+    int _humidityThreshold = -1; //?Nao achei uso pratico de humidade de ar do dht11
     int _temperatureThreshold = 35;
 
     int _soilMoistureMinHumidity = 40;
-    int _soilMoistureMaxHumidity = 50;
+    int _soilMoistureIdealHumidity = 50;
     int _soilMoistureLimit = 0;
     uint8_t _soilMoistureOffset = 5;
 
     unsigned long startTime = 0;
     unsigned long elapsedTime = 0;
-    const unsigned long MAX_IRRIGATION_TIMEOUT = 60000;
+    unsigned long IRRIGATION_TIMEOUT = 60000;
 };
 
 extern Irrigation irrigationSystem;

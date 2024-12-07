@@ -29,17 +29,17 @@ void Irrigation::run(bool forceRun)
       return;
     }
 
-    if(_soilMoistureValue >= _soilMoistureMaxHumidity)
+    if(_soilMoistureValue >= _soilMoistureIdealHumidity)
     {
       turnOffPump();
       elapsedTime = (currentTime - startTime);
       Serial.printf("Irrigation Completed! \n Elapsed time: %.2f seconds\n", elapsedTime/1000.0);
     }
-    else if(currentTime - startTime >= MAX_IRRIGATION_TIMEOUT)
+    else if(currentTime - startTime >= IRRIGATION_TIMEOUT)
     {
       turnOffPump();
       criticalError = true;
-      Serial.printf("Error: MAX_IRRIGATION_TIMEOUT: %.2f seconds reached, Water Pump stopped irrigating. Check the System. \n", MAX_IRRIGATION_TIMEOUT/1000.0);
+      Serial.printf("Error: IRRIGATION_TIMEOUT: %.2f seconds reached, Water Pump stopped irrigating. Check the System. \n", IRRIGATION_TIMEOUT/1000.0);
     }
   }
 }
