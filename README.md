@@ -37,14 +37,14 @@ Para mais detalhes sobre o hardware, visite a seção [Hardware no Wiki](https:/
 ## ⚙️ Funcionalidades
 
 ### 🌐 **Conexão e Gerenciamento Inteligente**
-- **Gerenciamento de Conexão à Internet:**  
-  O ESP32 conecta-se à internet automaticamente, salvando ID e senha para facilitar reconexões.  
+- **Cadastro de Redes Wi-Fi:**  
+  O ESP32 cria um ponto de acesso para cadastrar sua rede Wi-Fi, salvando as credenciais para reconexões automáticas.
+- **Botão de Reset de Conexão:**  
+  Um simples toque no botão "boot" reinicia a conexão em caso de falha ou necessidade de troca de rede.
 - **Envio de Dados Otimizado:**  
   Envia dados para o Blynk em intervalos controlados para garantir comunicação eficiente.  
 - **Redução de Consumo de Energia:**  
   Lógica otimizada para leituras periódicas, reduzindo o consumo do ESP32.  
-- **Botão de Reset de Conexão:**  
-  Um simples toque no botão "boot" reinicia a conexão em caso de falha.
 
 ---
 
