@@ -14,6 +14,8 @@ O trabalho foi realizado como parte da disciplina **Projeto Integrador I**, com 
 > O sistema utiliza um sensor **FC28** para monitorar a umidade do solo e um **DHT11** para monitorar a temperatura e umidade do ar. Caso a umidade esteja abaixo do esperado, uma bomba d'água é automaticamente acionada, garantindo a irrigação adequada da horta.  
 > Além disso, o sistema gerencia o tanque de água utilizando dois sensores verticais para monitorar o nível do reservatório. Quando o nível está baixo, uma válvula solenóide conectada ao encanamento é ativada via relé, assegurando o reabastecimento automático.
 
+Para detalhes técnicos mais aprofundados, confira a documentação no [Wiki do Projeto](https://github.com/Arthur5492/ESP32-Smart-Watering-Control-With-Blynk/wiki).
+
 ---
 
 ## 🖼 Visão Geral do Sistema
@@ -27,6 +29,8 @@ Abaixo, você pode conferir os esquemas que detalham a organização geral do si
 ### **Esquema de Conexão**
 ![Conexões drawio (2)](https://github.com/user-attachments/assets/87d00905-9c92-4b0c-a60f-a35893415945)  
 *Aqui estão as conexões detalhadas entre os componentes, mostrando como os sensores, atuadores e o ESP32 se comunicam.*
+
+Para mais detalhes sobre o hardware, visite a seção [Hardware no Wiki](https://github.com/Arthur5492/ESP32-Smart-Watering-Control-With-Blynk/wiki/2.Hardware).
 
 ---
 
@@ -63,3 +67,7 @@ Abaixo, você pode conferir os esquemas que detalham a organização geral do si
   Detecta falhas de sensores, timeouts ou condições adversas, aplicando lógica de fallback.  
 - **Modo Manual e Testes:**  
   Oferece operação forçada para ajustes ou manutenção, ideal para experimentação.
+
+## 🚀 Installation
+
+> Para realizar a instalação e configuração do projeto em seu ambiente, siga as instruções detalhadas disponíveis no [Guia de Instalação no Wiki](https://github.com/Arthur5492/ESP32-Smart-Watering-Control-With-Blynk/wiki/3.Installation).
