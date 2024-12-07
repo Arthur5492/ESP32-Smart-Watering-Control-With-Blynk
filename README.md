@@ -14,23 +14,25 @@ Também há o controle do sistema de tanque de água, que utiliza dois sensores 
 ## Funcionalidades
 
 ### Detalhes Gerais
-- **Conectar dispositivo à internet remotamente, salvando na memória do ESP**
+- **Conecta ESP32 à internet remotamente, salvando id e senha do WiFi na memória**
 - **Envio de dados para o Blynk com intervalo de tempo para não sobrecarregar a comunicação**
 - **Intervalo de tempo de leitura e lógica para reduzir o consumo do ESP32**
-- **Botão para reiniciar a conexão com o ESP**
+- **Botão boot para resetar a conexão com a internet**
 
 ### Tanque de Água
-- **Detecta se está cheio/médio/vazio**
+- **Detecta se está cheio/médio/vazio/erro**
 - **Proteção contra vazamento checando tempo limite e nível de água**
-- **Informa a duração da irrigação**
+- **Informa o tempo percorrido para enchimento do tanque**
 
-### Irrigação
-- **Detecta umidade do solo da horta**
-- **Calcula quando irrigar baseado na temperatura atual e umidade do solo**
-- **Precaução caso o tanque de água esteja em nível baixo, liga o tanque de água e irriga simultaneamente**
-- **Precaução caso haja erro de sensor de nível de água**
-- **Timeout caso o sensor de umidade falhe**
-
+### Irrigação- 
+- **Gerenciamento Integrado do Sistema de Irrigação:**  
+  Controla a ativação da bomba d'água com base nos dados coletados do sensor de humidade de solo, tendo garantia contra temperaturas extremas utilizando os dados do DHT11
+- **Configuração de Limites:**  
+  Implementa thresholds ajustáveis para umidade do solo, temperatura e umidade relativa para otimização do consumo de água.
+- **Gestão de Erros:**  
+  Identifica falhas críticas, como sensores fora de operação ou timeouts, e aplica lógica de fallback para evitar danos ao sistema.
+- **Modo Manual e Testes:**  
+  Oferece operação forçada via comando remoto para manutenção ou testes do sistema(experimental).
 ## Esquema Geral do Sistema
 ![Irrigação drawio (1)](https://github.com/user-attachments/assets/a1357d2c-8834-49f1-b013-14b51f24a0bd)
 
