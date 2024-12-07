@@ -19,12 +19,17 @@ void setup() {
   irrigationSystem.setPumpPIN(27);
   //ENDPINS
 
-  //PARAMETERS
+  //IRRIGATION PARAMETERS
   irrigationSystem.setSoilMostureMin(5);
-  irrigationSystem.setSoilMostureMax(15);
+  irrigationSystem.setSoilMostureIdeal(15);
   irrigationSystem.setHumThreshold(35);
   irrigationSystem.setTempThreshold(25);
-  //END PARAMETERS
+  //END IRRIGATION PARAMETERS
+
+  //TIMEOUT PARAMETERS
+  waterTank.set_FILL_TIMEOUT(60000);
+  irrigationSystem.set_IRRIGATION_TIMEOUT(60000);
+  //END TIMEOUT PARAMETERS
 
   wifiSetup.begin();
   
@@ -42,7 +47,7 @@ void loop() {
   
   if(millis() - timer >= 2000) //Simpliest Timer to reduce amount of checks per iteration
   {
-    waterTank.update();
+    waterTank.run();
     irrigationSystem.run();
     timer = millis();
 
@@ -54,7 +59,7 @@ void loop() {
     // Serial.printf("Humidade Solo: %d\n",soilMoisture.getPercentValue());
   }
 
-  if(digitalRead(BOOT_BUTTON) == LOW)
+  if(digitalRead(BOOT_BUTTON) == LOW) //reset wifi stored by clicking boot button
   {
     wifiSetup.clearNVS();
     esp_restart();
