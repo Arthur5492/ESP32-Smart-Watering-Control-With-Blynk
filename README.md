@@ -1,48 +1,65 @@
-# Sistema de Irrigação para Horta Medicinal
+# 🌱 Sistema de Irrigação para Horta Medicinal🌱
 
-Este projeto tem como objetivo o desenvolvimento de um protótipo de automatização de uma Horta Medicinal localizada nas dependências da UFSC - Campus Araranguá. O trabalho foi desenvolvido como parte da disciplina **Projeto Integrador I** por:
+Este projeto busca desenvolver um protótipo automatizado para o gerenciamento de uma Horta Medicinal, localizada nas dependências da UFSC - Campus Araranguá.  
+O trabalho foi realizado como parte da disciplina **Projeto Integrador I**, com a colaboração de:
 - **Arthur Rodrigues**
 - **Fernando Moretti**
 - **Lucas Schemes**
 - **Pedro Magnavita**
 
-# Descrição do Projeto
+---
 
-O sistema utiliza um sensor **FC28** para monitorar a umidade do solo e um **DHT11** para monitorar a temperatura do ar. Caso a umidade esteja abaixo do esperado, uma bomba d'água é acionada, irrigando a horta.  
-Também há o controle do sistema de tanque de água, que utiliza dois sensores de nível de água verticais para medir o nível de água do tanque. Caso ele esteja baixo, uma válvula solenoide conectada ao encanamento é acionada via relé.
+## 📋 Descrição do Projeto
+
+O sistema utiliza um sensor **FC28** para monitorar a umidade do solo e um **DHT11** para monitorar a temperatura e umidade do ar. Caso a umidade esteja abaixo do esperado, uma bomba d'água é acionada, irrigando a horta.  
+Também há o controle do sistema de tanque de água, que utiliza dois sensores de nível de água verticais para medir o nível de água do tanque. Caso ele esteja baixo, uma válvula solenóide conectada ao encanamento é acionada via relé.
 
 ---
-# Funcionalidades
 
-## Detalhes Gerais
+## 🖼 Visão Geral do Sistema
+
+Abaixo, você pode conferir os esquemas que detalham a organização geral do sistema e suas conexões. Esses diagramas ilustram como os componentes interagem para tornar o sistema funcional e eficiente.
+
+### **Esquema Geral do Sistema**
+![Irrigação drawio (1)](https://github.com/user-attachments/assets/a1357d2c-8834-49f1-b013-14b51f24a0bd)  
+*Este esquema representa a visão completa do sistema, incluindo sensores, atuadores e o microcontrolador ESP32.*
+
+### **Esquema de Conexão**
+![Conexões drawio (2)](https://github.com/user-attachments/assets/87d00905-9c92-4b0c-a60f-a35893415945)  
+*Aqui estão as conexões detalhadas entre os componentes, mostrando como os sensores, atuadores e o ESP32 se comunicam.*
+
+---
+
+## ⚙️ Funcionalidades
+
+### 🌐 **Conexão e Gerenciamento Inteligente**
 - **Gerenciamento de Conexão à Internet:**  
-  Conecta o ESP32 à internet remotamente, armazenando o ID e a senha do WiFi na memória para reconexões automáticas.
+  O ESP32 conecta-se à internet automaticamente, salvando ID e senha para facilitar reconexões.  
 - **Envio de Dados Otimizado:**  
-  Envia informações ao Blynk com intervalos controlados para evitar sobrecarga na comunicação.
+  Envia dados para o Blynk em intervalos controlados para garantir comunicação eficiente.  
 - **Redução de Consumo de Energia:**  
-  Implementa intervalos de tempo para leitura de sensores e lógica, otimizando o consumo de energia do ESP32.
+  Lógica otimizada para leituras periódicas, reduzindo o consumo do ESP32.  
 - **Botão de Reset de Conexão:**  
-  Utiliza o botão "boot" para reiniciar a conexão do ESP32 com a internet em caso de falhas.
-### Tanque de Água
-- **Monitoramento de Nível:**  
-  Detecta os estados de cheio, médio, vazio ou erro no tanque de água.
-- **Proteção Contra Vazamentos:**  
-  Monitora o tempo de operação e os níveis de água para evitar transbordamentos ou vazamentos.
-- **Relatório de Enchimento:**  
-  Informa o tempo necessário para completar o enchimento do tanque.
-### Irrigação- 
-- **Gerenciamento Integrado do Sistema de Irrigação:**  
-  Controla a ativação da bomba d'água com base nos dados coletados do sensor de humidade de solo, tendo garantia contra temperaturas extremas utilizando os dados do DHT11
-- **Configuração de Limites:**  
-  Implementa thresholds ajustáveis para umidade do solo, temperatura e umidade relativa para otimização do consumo de água.
-- **Gestão de Erros:**  
-  Identifica falhas críticas, como sensores fora de operação ou timeouts, e aplica lógica de fallback para evitar danos ao sistema.
-- **Modo Manual e Testes:**  
-  Oferece operação forçada via comando remoto para manutenção ou testes do sistema(experimental).
+  Um simples toque no botão "boot" reinicia a conexão em caso de falha.
+
 ---
-## Esquema Geral do Sistema
-![Irrigação drawio (1)](https://github.com/user-attachments/assets/a1357d2c-8834-49f1-b013-14b51f24a0bd)
 
-## Esquema de Conexão
-![Conexões drawio (2)](https://github.com/user-attachments/assets/87d00905-9c92-4b0c-a60f-a35893415945)
+### 💧 **Controle do Tanque de Água**
+- **Monitoramento Completo do Nível:**  
+  Detecta os estados de cheio, médio, vazio ou erro no tanque.  
+- **Proteção Contra Vazamentos:**  
+  Monitora o tempo de operação e níveis para evitar transbordamentos.  
+- **Relatório de Enchimento:**  
+  Calcula e exibe o tempo necessário para encher o tanque.
 
+---
+
+### 🌿 **Irrigação Automática**
+- **Gerenciamento Integrado:**  
+  A bomba d'água é acionada com base nos dados de umidade do solo. O sistema também usa informações de temperatura e umidade do DHT11 para evitar condições extremas.  
+- **Configuração de Limites:**  
+  Permite ajuste de thresholds para otimização do consumo de água.  
+- **Gestão de Erros:**  
+  Detecta falhas de sensores, timeouts ou condições adversas, aplicando lógica de fallback.  
+- **Modo Manual e Testes:**  
+  Oferece operação forçada para ajustes ou manutenção, ideal para experimentação.
