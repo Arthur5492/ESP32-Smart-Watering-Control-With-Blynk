@@ -1,3 +1,9 @@
+/**
+ * @file wifiSetup.h
+ * @brief Handles Wi-Fi management with captive portal setup, NVS storage.
+ * @author Arthur  Github: https://github.com/Arthur5492
+ */
+
 #ifndef _WIFI_SETUP_H_
 #define _WIFI_SETUP_H_
 #pragma once
@@ -9,49 +15,64 @@
 #include <Preferences.h>
 
 #include "blynkHandler.h"
-
-class wifiSetup
+class WifiSetup
 {
+  public:
+    WifiSetup(): server(80) {};
+
+    void begin(); 
+    void loop(); 
+
+    /// @brief Connect to the stored SSID and Password 
+    bool connectWifi(); 
+
+    void startCaptivePortal(); 
+    void logoutCaptivePortal(); 
+    /// @brief Search and insert in html all wifi SSID options
+    void wifiScan();
+    
+    /// @brief Check if there is any stored SSID and Password in NVS 
+    bool isStoredInNVS();
+    /// @brief Save NVS Settings
+    bool saveWifiSettingsNVS();
+    bool clearNVS(); 
+     
+    //Getters
+    String get_ssidStored() { return ssidStored; };
+    String get_passwdStored() { return passwdStored; };
+    bool get_isCaptivePortalEnabled() { return isCaptivePortalEnabled; };
+    bool get_isWifiDataStored(){return isWifiDataStored; };
+    
   private:
-    //Captive Portal
-    const char* ssidCapPortal = "Configura_ESP32";
+    //Captive Portal Data
+    const char* ssidCapPortal = "Configure_ESP32";
     const char* passwordCapPortal = "12345678";
-    unsigned long serverStartTime;  // Variável para armazenar o tempo de início do servidor
-    const unsigned long timeoutDuration = 300000;  // 5 minutos em milissegundos
+    String wifiOptions = "";
+    //END Captive Portal Data
+
+    unsigned long serverStartTime = 0;
+    const unsigned long timeoutDuration = 300000;
+    bool timeoutReached = false;
+     
     DNSServer dnsServer;
     AsyncWebServer server;
-    bool isAcessPointEnabled = false;
+    bool isCaptivePortalEnabled = false;
 
-    //NVS Memory
+    uint8_t blynkAttemptConnections = 0;
+
+    ///NVS WIFI DATA
     Preferences wifiDataNVS;
-    //Stored Wifi Data
-    String ssidStored;
-    String passwdStored;
-    String blynk_Key_Stored;
-    String wifiOptions;
-    
-    String htmlPage(); //HTML page for the Captive Portal
-    bool isWifiDataStored(); //Check if there is any stored SSID and Password in NVS 
-    void wifiScan();//Search and insert in html all wifi SSID options
+    enum NVSReadWrite {NVS_READ_WRITE = false, NVS_READ_ONLY = true};
+    bool isWifiDataStored = false;
+    //Data Stored
+    String ssidStored = "";  
+    String passwdStored = "";
+    ///END NVS WIFI DATA
 
-  public:
-    wifiSetup(): server(80) {};
-    ~wifiSetup(){};
-
-    void logoutCaptivePortal(); //Logout the Captive Portal
-    bool connectWifi(); //Connect to the stored SSID and Password
-    void startCaptivePortal(); //Start the Captive Portal
-    void begin(); //Start the basics
-    void loop(); //Loop for the Captive Portal
-    void clearNVS(); //Clear all NVS data stored
-
-    const char* getSsidStored() { return ssidStored.c_str(); }
-    const char* getPasswdStored() { return passwdStored.c_str(); }
-
-    //?Not used
-    bool getIsAcessPointEnabled() { return isAcessPointEnabled; }
+    /// @brief //HTML page for the Captive Portal 
+    String htmlPage(); 
 };
 
-extern wifiSetup acessPoint;
+extern WifiSetup wifiSetup;
 
 #endif
